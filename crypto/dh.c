@@ -10,10 +10,10 @@
  */
 
 #include <linux/module.h>
-#include <linux/fips.h>
 #include <crypto/internal/kpp.h>
 #include <crypto/kpp.h>
 #include <crypto/dh.h>
+#include <linux/fips.h>
 #include <linux/mpi.h>
 
 struct dh_ctx {
@@ -66,7 +66,7 @@ static int dh_set_params(struct dh_ctx *ctx, struct dh *params)
 	if (!ctx->p)
 		return -EINVAL;
 
-	if (fips_enabled && params->q && params->q_size) {
+	if (params->q && params->q_size) {
 		ctx->q = mpi_read_raw_data(params->q, params->q_size);
 		if (!ctx->q)
 			return -EINVAL;
